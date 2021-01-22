@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"go.uber.org/zap"
 )
 
@@ -16,4 +18,9 @@ func main() {
 
 	sugar.Infow("Starting document search app")
 
+	var sampleTexts SampleTexts
+
+	sampleTexts.init("./sample_text")
+
+	fmt.Println(sampleTexts)
 }
