@@ -18,9 +18,9 @@ func main() {
 
 	sugar.Infow("Starting document search app")
 
-	var sampleTexts SampleTexts
+	var texts Texts
 
-	sampleTexts.init("./sample_text")
+	texts.init("./sample_texts")
 
-	fmt.Println(sampleTexts)
+	fmt.Println(texts)
 }
