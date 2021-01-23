@@ -1,26 +1,26 @@
 package main
 
-// import (
-// 	"io"
-// 	"io/ioutil"
-// 	"strings"
-// 	"testing"
+import (
+	"strings"
+	"time"
+)
 
-// 	"github.com/stretchr/testify/assert"
-// )
+func (search *Search) stringMatchSearch(term string) {
 
-// func (sampleTexts *SampleTexts) stringMatchSearch() (string, error) {
+	start := time.Now()
 
-// 	for _, name := range files {
+	for i, text := range search.texts {
+		splitStrings := strings.Split(text.content, " ")
+		for _, word := range splitStrings {
+			if word == term {
+				search.texts[i].relevancy++
+				search.total_relevancy++
+			}
+		}
+	}
 
-// 	}
+	executionTime := time.Since(start)
 
-// 	splitStrings := strings.Split()
+	search.executionTime = executionTime
 
-// 	fmt.Println(splitStrings)
-
-// 	relevancy := 0
-
-// 	text := string(content)
-// 	return text, err
-// }
+}
