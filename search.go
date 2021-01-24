@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -9,12 +10,15 @@ import (
 
 // Search is struct to contain the files and their contents
 type Search struct {
-	executionTime   time.Duration
-	executionType   string
-	texts           []Text
-	total_relevancy int
+	executionTime  time.Duration
+	executionType  string
+	method         string
+	term           string
+	texts          []Text
+	totalRelevancy int
 }
 
+// Text is a struct to contain individual document metrics
 type Text struct {
 	content   string
 	name      string
@@ -51,4 +55,21 @@ func readInFile(path string) (string, error) {
 	}
 
 	return string(content), err
+}
+
+func (search *Search) executeSearch() {
+	start := time.Now()
+	for i := 0; i < len(search.texts); i++ {
+		switch methodChoice := search.method; methodChoice {
+		case "1":
+			search.executionType = "String Matching"
+			search.stringMatchSearch(&search.texts[i])
+		case "2":
+			search.executionType = "Regex Matching"
+			search.regexMatchSearch(&search.texts[i])
+		default:
+			fmt.Println("A valid search method was not detected. Please enter an int 1-3.")
+		}
+	}
+	search.executionTime = time.Since(start)
 }
