@@ -21,9 +21,11 @@ type Search struct {
 // Text is a struct to contain individual document metrics
 type Text struct {
 	content   string
+	id        int
 	name      string
 	path      string
 	relevancy int
+	tokens    []string
 }
 
 func (search *Search) init(path string) error {
@@ -59,17 +61,20 @@ func readInFile(path string) (string, error) {
 
 func (search *Search) executeSearch() {
 	start := time.Now()
+	index := make(index)
 	for i := 0; i < len(search.texts); i++ {
+		search.texts[i].id = i
 		switch methodChoice := search.method; methodChoice {
 		case "1":
-			search.executionType = "String Matching"
 			search.stringMatchSearch(&search.texts[i])
 		case "2":
-			search.executionType = "Regex Matching"
 			search.regexMatchSearch(&search.texts[i])
+		case "3":
+			countIndex := index.add(search.texts[i])
+			search.texts[i].relevancy = countIndex[search.term]
 		default:
 			fmt.Println("A valid search method was not detected. Please enter an int 1-3.")
 		}
+		search.executionTime = time.Since(start)
 	}
-	search.executionTime = time.Since(start)
 }

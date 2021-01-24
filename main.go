@@ -21,16 +21,16 @@ func main() {
 	var search Search
 
 	// debugging
-	// search.term = "the"
-	// search.method = "2"
+	search.term = "the"
+	search.method = "2"
 
 	// regular-use
 
-	fmt.Println("\nEnter a search term or phrase (single token):")
-	fmt.Scanln(&search.term)
+	// fmt.Println("\nEnter a search term or phrase (single token):")
+	// fmt.Scanln(&search.term)
 
-	fmt.Println("\nEnter 1-3 for the following search methods:\n1. String Matching\n2. Regex Search\n3. Indexed Search")
-	fmt.Scanln(&search.method)
+	// fmt.Println("\nEnter 1-3 for the following search methods:\n1. String Matching\n2. Regex Search\n3. Indexed Search")
+	// fmt.Scanln(&search.method)
 
 	search.init("./sample_texts")
 
