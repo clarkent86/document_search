@@ -18,14 +18,20 @@ func main() {
 
 	sugar.Infow("Starting document search app")
 
-	fmt.Println("\nEnter a search term or phrase (single token):")
+	// fmt.Println("\nEnter a search term or phrase (single token):")
 
 	var search Search
-	fmt.Scanln(&search.term)
 
-	fmt.Println("\nEnter 1-3 for the following search methods:\n1. String Matching\n2. Regex Search\n3. Indexed Search")
+	// debugging
+	search.term = "the"
+	search.method = "2"
 
-	fmt.Scanln(&search.method)
+	// regular-use
+	// fmt.Scanln(&search.term)
+
+	// fmt.Println("\nEnter 1-3 for the following search methods:\n1. String Matching\n2. Regex Search\n3. Indexed Search")
+
+	// fmt.Scanln(&search.method)
 
 	search.init("./sample_texts")
 
