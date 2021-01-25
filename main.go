@@ -20,12 +20,6 @@ func main() {
 
 	var search Search
 
-	// debugging
-	// search.term = "the"
-	// search.method = "2"
-
-	// regular-use
-
 	fmt.Println("\nEnter a search term or phrase (single token):")
 	fmt.Scanln(&search.term)
 
