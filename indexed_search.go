@@ -16,12 +16,6 @@ func (index index) add(text *Text) map[string]int {
 		} else {
 			countIndex[word] = 1
 		}
-		ids := index[word]
-		if ids != nil && ids[len(ids)-1] == text.id {
-			// Don't add same ID twice & check if counter has been initialized
-			continue
-		}
-		index[word] = append(ids, text.id)
 	}
 	return countIndex
 }
@@ -45,14 +39,4 @@ func tokenize(text string) []string {
 		// split on unexpected word chacters (space, newline, etc)
 		return !unicode.IsLetter(r) && !unicode.IsNumber(r) && !unicode.IsPunct(r)
 	})
-}
-
-func (index index) search(text string) [][]int {
-	var r [][]int
-	for _, token := range analyze(text) {
-		if ids, ok := index[token]; ok {
-			r = append(r, ids)
-		}
-	}
-	return r
 }
