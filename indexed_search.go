@@ -7,19 +7,19 @@ import (
 
 type index map[string][]int
 
-func (index index) add(text Text) map[string]int {
+func (index index) add(text *Text) map[string]int {
 	var countIndex = make(map[string]int)
 	for _, word := range analyze(text.content) {
+		_, ok := countIndex[word]
+		if ok {
+			countIndex[word] = countIndex[word] + 1
+		} else {
+			countIndex[word] = 1
+		}
 		ids := index[word]
 		if ids != nil && ids[len(ids)-1] == text.id {
 			// Don't add same ID twice & check if counter has been initialized
-			_, ok := countIndex[word]
-			if ok {
-				countIndex[word] = countIndex[word] + 1
-			} else {
-				countIndex[word] = 1
-				continue
-			}
+			continue
 		}
 		index[word] = append(ids, text.id)
 	}
@@ -43,14 +43,14 @@ func toLowerFilter(tokens []string) []string {
 func tokenize(text string) []string {
 	return strings.FieldsFunc(text, func(r rune) bool {
 		// split on unexpected word chacters (space, newline, etc)
-		return !unicode.IsLetter(r) && !unicode.IsNumber(r)
+		return !unicode.IsLetter(r) && !unicode.IsNumber(r) && !unicode.IsPunct(r)
 	})
 }
 
-func (idx index) search(text string) [][]int {
+func (index index) search(text string) [][]int {
 	var r [][]int
 	for _, token := range analyze(text) {
-		if ids, ok := idx[token]; ok {
+		if ids, ok := index[token]; ok {
 			r = append(r, ids)
 		}
 	}

@@ -70,7 +70,7 @@ func (search *Search) executeSearch() {
 		case "2":
 			search.regexMatchSearch(&search.texts[i])
 		case "3":
-			countIndex := index.add(search.texts[i])
+			countIndex := index.add(&search.texts[i])
 			search.texts[i].relevancy = countIndex[search.term]
 		default:
 			fmt.Println("A valid search method was not detected. Please enter an int 1-3.")
