@@ -11,6 +11,7 @@ import (
 
 // Search is struct to contain the files and their contents
 type Search struct {
+	countIndex     map[string]int
 	executionTime  time.Duration
 	executionType  string
 	method         string
@@ -23,7 +24,6 @@ type Search struct {
 // Text is a struct to contain individual document metrics
 type Text struct {
 	content   string
-	id        int
 	name      string
 	path      string
 	relevancy int
@@ -66,7 +66,6 @@ func (search *Search) executeSearch() {
 	search.regexTerm = regexp.MustCompile(`(?:\A|\z|\s)(?i)` + search.term + `(?:\A|\z|\s)`)
 	start := time.Now()
 	for i := 0; i < len(search.texts); i++ {
-		search.texts[i].id = i
 		switch methodChoice := search.method; methodChoice {
 		case "1":
 			search.stringMatchSearch(&search.texts[i])
