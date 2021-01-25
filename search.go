@@ -18,6 +18,7 @@ type Search struct {
 	texts          []Text
 	totalRelevancy int
 	regexTerm      *regexp.Regexp
+	countIndex     map[string]int
 }
 
 // Text is a struct to contain individual document metrics
@@ -63,6 +64,8 @@ func readInFile(path string) (string, error) {
 
 func (search *Search) executeSearch() {
 	index := make(index)
+	search.regexTerm = regexp.MustCompile(`(?:\A|\z|\s)(?i)` + search.term + `(?:\A|\z|\s)`)
+	start := time.Now()
 	for i := 0; i < len(search.texts); i++ {
 		search.texts[i].id = i
 		switch methodChoice := search.method; methodChoice {
@@ -71,11 +74,10 @@ func (search *Search) executeSearch() {
 		case "2":
 			search.regexMatchSearch(&search.texts[i])
 		case "3":
-			countIndex := index.add(&search.texts[i])
-			search.texts[i].relevancy = countIndex[search.term]
-			search.totalRelevancy = search.totalRelevancy + search.texts[i].relevancy
+			search.countIndex = index.add(&search.texts[i])
 		default:
 			fmt.Println("A valid search method was not detected. Please enter an int 1-3.")
 		}
+		search.executionTime = time.Since(start)
 	}
 }
