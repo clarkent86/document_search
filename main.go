@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"time"
 
+	"github.com/zhexuany/wordGenerator"
 	"go.uber.org/zap"
 )
 
@@ -16,27 +18,23 @@ func main() {
 	defer logger.Sync()
 	sugar := logger.Sugar()
 
-	sugar.Infow("Starting document search app")
+	sugar.Infow("Performance Testing Mode.")
 
 	var search Search
 
-	fmt.Println("\nEnter a search term or phrase (single token):")
-	fmt.Scanln(&search.term)
-
-	fmt.Println("\nEnter 1-3 for the following search methods:\n1. String Matching\n2. Regex Search\n3. Indexed Search")
+	fmt.Println("Enter 1-3 for the following search methods:\n1. String Matching\n2. Regex Search\n3. Indexed Search")
 	fmt.Scanln(&search.method)
 
 	search.init("./sample_texts")
 
-	search.executeSearch()
+	start := time.Now()
 
-	fmt.Printf("\n%s Relevancy Results for '%s':\n", search.executionType, search.term)
-
-	for _, text := range search.texts {
-		fmt.Printf("%s's relevancy: %d\n", text.name, text.relevancy)
+	for i := 0; i < 2000000; i++ {
+		search.term = wordGenerator.GetWord(20)
+		search.executeSearch()
 	}
 
-	fmt.Printf("\nTotal relevancy across all texts: %d\n", search.totalRelevancy)
+	search.executionTime = time.Since(start)
 
-	fmt.Printf("Execution time: %v\n", search.executionTime)
+	fmt.Printf("Execution time: %v", search.executionTime)
 }

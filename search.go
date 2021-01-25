@@ -60,7 +60,6 @@ func readInFile(path string) (string, error) {
 }
 
 func (search *Search) executeSearch() {
-	start := time.Now()
 	index := make(index)
 	for i := 0; i < len(search.texts); i++ {
 		search.texts[i].id = i
@@ -75,6 +74,5 @@ func (search *Search) executeSearch() {
 		default:
 			fmt.Println("A valid search method was not detected. Please enter an int 1-3.")
 		}
-		search.executionTime = time.Since(start)
 	}
 }
