@@ -75,6 +75,7 @@ func (search *Search) executeSearch() {
 		case "3":
 			countIndex := index.add(&search.texts[i])
 			search.texts[i].relevancy = countIndex[search.term]
+			search.totalRelevancy = search.totalRelevancy + search.texts[i].relevancy
 		default:
 			fmt.Println("A valid search method was not detected. Please enter an int 1-3.")
 		}
