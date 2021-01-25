@@ -13,6 +13,16 @@ Three files have been provided for you to read and use as sample search content.
 Run a performance test that does 2M searches with random search terms, and measures execution time. Which approach is fastest? Why?
 Provide some thoughts on what you would do on the software or hardware side to make this program scale to handle massive content and/or very large request volume (5000 requests/second or more)
 
+# Running document_search
+
+Requirements:
+- go version go1.11.6
+
+Usage:
+```bash
+go run .
+```
+
 # Performance testing
 
 I've taken results from [my performanceTesting branch](https://github.com/clarkent86/document_search/tree/performanceTesting) where I've alrtered the output of the program to execute 20M random searches on a chosen method. The key differences in real searches being that the randomly generated "words" are not english, but expected performance with real data would yield similar results.
