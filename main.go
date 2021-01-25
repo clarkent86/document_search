@@ -22,19 +22,21 @@ func main() {
 
 	var search Search
 
-	fmt.Println("Enter 1-3 for the following search methods:\n1. String Matching\n2. Regex Search\n3. Indexed Search")
-	fmt.Scanln(&search.method)
+	search.method = "3"
 
 	search.init("./sample_texts")
 
 	start := time.Now()
 
 	for i := 0; i < 2000000; i++ {
+		if i%20000 == 0 {
+			fmt.Printf("%d%%", i/20000)
+		}
 		search.term = wordGenerator.GetWord(20)
 		search.executeSearch()
 	}
 
 	search.executionTime = time.Since(start)
 
-	fmt.Printf("Execution time: %v", search.executionTime)
+	fmt.Printf("Execution time: %v\n", search.executionTime)
 }

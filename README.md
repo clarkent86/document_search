@@ -11,3 +11,11 @@ Prompt the user to enter a search term and search method, execute the search, an
 Three files have been provided for you to read and use as sample search content.
 Run a performance test that does 2M searches with random search terms, and measures execution time. Which approach is fastest? Why?
 Provide some thoughts on what you would do on the software or hardware side to make this program scale to handle massive content and/or very large request volume (5000 requests/second or more). 
+
+# performance_testing
+
+Execution times: 
+
+String matching: 1m22.6363796s
+Regex matching: 13m33.6419126s
+Index Search:
