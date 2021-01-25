@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"regexp"
 	"time"
 )
 
@@ -16,6 +17,7 @@ type Search struct {
 	term           string
 	texts          []Text
 	totalRelevancy int
+	regexTerm      *regexp.Regexp
 }
 
 // Text is a struct to contain individual document metrics
@@ -60,8 +62,9 @@ func readInFile(path string) (string, error) {
 }
 
 func (search *Search) executeSearch() {
-	start := time.Now()
 	index := make(index)
+	search.regexTerm = regexp.MustCompile(`(?:\A|\z|\s)(?i)` + search.term + `(?:\A|\z|\s)`)
+	start := time.Now()
 	for i := 0; i < len(search.texts); i++ {
 		search.texts[i].id = i
 		switch methodChoice := search.method; methodChoice {
