@@ -17,7 +17,7 @@ Provide some thoughts on what you would do on the software or hardware side to m
 # Running document_search
 
 Requirements:
-- go version go1.11.6
+- go version go1.19.3
 
 Usage:
 ```bash
