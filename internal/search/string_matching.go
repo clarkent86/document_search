@@ -1,4 +1,4 @@
-package main
+package search
 
 import (
 	"strings"
@@ -7,9 +7,9 @@ import (
 func (search *Search) stringMatchSearch(text *Text) {
 	splitStrings := strings.Fields(text.content)
 	for _, word := range splitStrings {
-		if checkToken(word, search.term) {
-			text.relevancy++
-			search.totalRelevancy++
+		if checkToken(word, search.Term) {
+			text.Relevancy++
+			search.TotalRelevancy++
 		}
 	}
 }

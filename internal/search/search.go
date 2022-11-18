@@ -1,4 +1,4 @@
-package main
+package search
 
 import (
 	"fmt"
@@ -12,25 +12,25 @@ import (
 // Search is struct to contain the files and their contents
 type Search struct {
 	countIndex     map[string]int
-	executionTime  time.Duration
-	executionType  string
-	method         string
-	term           string
-	texts          []Text
-	totalRelevancy int
+	ExecutionTime  time.Duration
+	ExecutionType  string
+	Method         string
+	Term           string
+	Texts          []Text
+	TotalRelevancy int
 	regexTerm      *regexp.Regexp
 }
 
 // Text is a struct to contain individual document metrics
 type Text struct {
 	content   string
-	name      string
+	Name      string
 	path      string
-	relevancy int
+	Relevancy int
 	tokens    []string
 }
 
-func (search *Search) init(path string) error {
+func (search *Search) Init(path string) error {
 
 	file, err := os.Open(path)
 	if err != nil {
@@ -45,8 +45,8 @@ func (search *Search) init(path string) error {
 	for _, name := range files {
 		text.path = path + "/" + name
 		text.content, _ = readInFile(text.path)
-		text.name = name
-		search.texts = append(search.texts, text)
+		text.Name = name
+		search.Texts = append(search.Texts, text)
 	}
 
 	return nil
@@ -61,23 +61,23 @@ func readInFile(path string) (string, error) {
 	return string(content), err
 }
 
-func (search *Search) executeSearch() {
+func (search *Search) ExecuteSearch() {
 	index := make(index)
-	search.regexTerm = regexp.MustCompile(`(?:\A|\z|\s)(?i)` + search.term + `(?:\A|\z|\s)`)
+	search.regexTerm = regexp.MustCompile(`(?:\A|\z|\s)(?i)` + search.Term + `(?:\A|\z|\s)`)
 	start := time.Now()
-	for i := 0; i < len(search.texts); i++ {
-		switch methodChoice := search.method; methodChoice {
+	for i := 0; i < len(search.Texts); i++ {
+		switch methodChoice := search.Method; methodChoice {
 		case "1":
-			search.stringMatchSearch(&search.texts[i])
+			search.stringMatchSearch(&search.Texts[i])
 		case "2":
-			search.regexMatchSearch(&search.texts[i])
+			search.regexMatchSearch(&search.Texts[i])
 		case "3":
-			countIndex := index.add(&search.texts[i])
-			search.texts[i].relevancy = countIndex[search.term]
-			search.totalRelevancy = search.totalRelevancy + search.texts[i].relevancy
+			countIndex := index.add(&search.Texts[i])
+			search.Texts[i].Relevancy = countIndex[search.Term]
+			search.TotalRelevancy = search.TotalRelevancy + search.Texts[i].Relevancy
 		default:
 			fmt.Println("A valid search method was not detected. Please enter an int 1-3.")
 		}
-		search.executionTime = time.Since(start)
+		search.ExecutionTime = time.Since(start)
 	}
 }

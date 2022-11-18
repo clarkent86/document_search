@@ -43,7 +43,7 @@ Results of running the performance testing with 2M searches:
 Regex takes the longest amount of time here by far. This is because of the function:
 
 ```golang
-regexp.MustCompile(`(?:\A|\z|\s)(?i)` + search.term + `(?:\A|\z|\s)`)
+regexp.MustCompile(`(?:\A|\z|\s)(?i)` + search.Term + `(?:\A|\z|\s)`)
 ```
 
 This regex must compile 2 million times, one for each randomly generated search term, in order to perform the regex search method.

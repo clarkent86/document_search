@@ -1,4 +1,4 @@
-package main
+package search
 
 import (
 	"fmt"
@@ -139,19 +139,19 @@ func TestExecuteSearch(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			//tests string matching search
-			test.search.stringMatchSearch(&test.search.texts[0])
-			assert.Equal(t, test.expectedResult, test.search.texts[0].relevancy)
+			test.search.stringMatchSearch(&test.search.Texts[0])
+			assert.Equal(t, test.expectedResult, test.search.Texts[0].relevancy)
 
 			//tests regex search
-			test.search.regexMatchSearch(&test.search.texts[0])
-			assert.Equal(t, test.expectedResult, test.search.texts[0].relevancy)
+			test.search.regexMatchSearch(&test.search.Texts[0])
+			assert.Equal(t, test.expectedResult, test.search.Texts[0].relevancy)
 
 			//tests indexed search
 			index := make(index)
 			test.search.texts[0].id = 0
-			countIndex := index.add(&test.search.texts[0])
-			fmt.Println(countIndex[test.search.term])
-			assert.Equal(t, test.expectedResult, countIndex[test.search.term])
+			countIndex := index.add(&test.search.Texts[0])
+			fmt.Println(countIndex[test.search.Term])
+			assert.Equal(t, test.expectedResult, countIndex[test.search.Term])
 		})
 	}
 }
