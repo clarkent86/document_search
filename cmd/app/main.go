@@ -23,7 +23,7 @@ func main() {
 
 	search.ExecuteSearch()
 
-	fmt.Printf("\n%sRelevancy Results for '%s':\n", search.ExecutionType, search.Term)
+	fmt.Printf("\n%s Relevancy Results for '%s':\n", search.ExecutionType, search.Term)
 
 	for _, text := range search.Texts {
 		fmt.Printf("%s's relevancy: %d\n", text.Name, text.Relevancy)

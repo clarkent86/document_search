@@ -2,6 +2,7 @@ package search
 
 import (
 	"fmt"
+	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -50,7 +51,6 @@ func TestExecuteSearch(t *testing.T) {
 		},
 		expectedResult: 0,
 	}, { // the following tests are scenarios I might clarify with a customer/product owner on desired functionality. Since the case study defines exact documentContent matching I left these out but would be happy to talk through stategies to support matching these cases.
-
 		name: "ends with .",
 		search: Search{
 			Term:  "the",
@@ -143,6 +143,7 @@ func TestExecuteSearch(t *testing.T) {
 			assert.Equal(t, test.expectedResult, test.search.Texts[0].Relevancy)
 
 			//tests regex search
+			test.search.regexTerm = regexp.MustCompile(`(?:\A|\z|\s)(?i)` + test.search.Term + `(?:\A|\z|\s)`)
 			test.search.regexMatchSearch(&test.search.Texts[0])
 			assert.Equal(t, test.expectedResult, test.search.Texts[0].Relevancy)
 
