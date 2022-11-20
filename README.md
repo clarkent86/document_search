@@ -34,7 +34,7 @@ Results of running the performance testing with 2M searches:
 |----------|:-------------:|------:|
 | String matching: |  1m44.4954022s | 1m49.5259472s |
 | Regex matching: |   13m58.9412604s    |   13m33.6419126s |
-|Index Search: | 319.6756ms |   2.0906441s |
+| Index Search: | 319.6756ms |   2.0906441s |
 
  
   (it helped to do do a modulus derived printout of the randomly generated terms to verify progress was made)

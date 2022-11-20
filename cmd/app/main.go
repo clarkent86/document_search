@@ -3,16 +3,11 @@ package main
 import (
 	"fmt"
 
-	"go.uber.org/zap"
 	s "github.com/clarkent86/document_search/internal/search"
-)
-
-var (
-	logger *zap.SugaredLogger
+	"go.uber.org/zap"
 )
 
 func main() {
-
 	logger, _ := zap.NewProduction()
 	defer logger.Sync()
 	sugar := logger.Sugar()
@@ -21,13 +16,10 @@ func main() {
 
 	var search s.Search
 
-	fmt.Println("\nEnter a search term or phrase (single token):")
-	fmt.Scanln(&search.Term)
-
-	fmt.Println("\nEnter 1-3 for the following search methods:\n1. String Matching\n2. Regex Search\n3. Indexed Search")
-	fmt.Scanln(&search.Method)
-
-	search.Init("./sample_texts")
+	err := search.InitEnv()
+	if err != nil {
+		sugar.Fatal(err.Error())
+	}
 
 	search.ExecuteSearch()
 
