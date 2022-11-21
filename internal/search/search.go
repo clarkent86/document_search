@@ -15,7 +15,7 @@ type Search struct {
 	Term           string
 	Texts          []Text
 	TotalRelevancy int
-	regexTerm      *regexp.Regexp
+	RegexTerm      *regexp.Regexp
 }
 
 // Text is a struct to contain individual document metrics
@@ -46,26 +46,4 @@ func (search *Search) Init(path string) error {
 	}
 
 	return nil
-}
-
-func (search *Search) ExecuteSearch() {
-	index := make(index)
-	start := time.Now()
-	for i := 0; i < len(search.Texts); i++ {
-		switch methodChoice := search.Method; methodChoice {
-		case 1:
-			search.ExecutionType = "String Matching"
-			search.stringMatchSearch(&search.Texts[i])
-		case 2:
-			search.ExecutionType = "Regex Matching"
-			search.regexTerm = regexp.MustCompile(`(?:\A|\z|\s)(?i)` + search.Term + `(?:\A|\z|\s)`)
-			search.regexMatchSearch(&search.Texts[i])
-		case 3:
-			search.ExecutionType = "Indexed Search"
-			countIndex := index.add(&search.Texts[i])
-			search.Texts[i].Relevancy = countIndex[search.Term]
-			search.TotalRelevancy = search.TotalRelevancy + search.Texts[i].Relevancy
-		}
-		search.ExecutionTime = time.Since(start)
-	}
 }

@@ -139,18 +139,18 @@ func TestExecuteSearch(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			//tests string matching search
-			test.search.stringMatchSearch(&test.search.Texts[0])
+			test.search.StringMatchSearch(&test.search.Texts[0])
 			assert.Equal(t, test.expectedResult, test.search.Texts[0].Relevancy)
 
 			//tests regex search
-			test.search.regexTerm = regexp.MustCompile(`(?:\A|\z|\s)(?i)` + test.search.Term + `(?:\A|\z|\s)`)
-			test.search.regexMatchSearch(&test.search.Texts[0])
+			test.search.RegexTerm = regexp.MustCompile(`(?:\A|\z|\s)(?i)` + test.search.Term + `(?:\A|\z|\s)`)
+			test.search.RegexMatchSearch(&test.search.Texts[0])
 			assert.Equal(t, test.expectedResult, test.search.Texts[0].Relevancy)
 
 			//tests indexed search
-			index := make(index)
+			index := make(Index)
 			// test.search.Texts[0].Id = 0
-			countIndex := index.add(&test.search.Texts[0])
+			countIndex := index.Add(&test.search.Texts[0])
 			fmt.Println(countIndex[test.search.Term])
 			assert.Equal(t, test.expectedResult, countIndex[test.search.Term])
 		})

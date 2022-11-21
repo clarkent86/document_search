@@ -2,9 +2,16 @@ package search
 
 import (
 	"strings"
+	"time"
 )
 
-func (search *Search) stringMatchSearch(text *Text) {
+type stringMatchResults struct {
+	results        map[string]int
+	TotalRelevancy int
+	executionTime  time.Time
+}
+
+func (search *Search) StringMatchSearch(text *Text) {
 	splitStrings := strings.Fields(text.content)
 	for _, word := range splitStrings {
 		if checkToken(word, search.Term) {
