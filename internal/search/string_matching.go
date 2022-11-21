@@ -1,14 +1,16 @@
 package search
 
 import (
+	"encoding/json"
+	"net/http"
 	"strings"
 	"time"
 )
 
 type stringMatchResults struct {
-	results        map[string]int
+	Results        map[string]int
 	TotalRelevancy int
-	executionTime  time.Time
+	ExecutionTime  time.Duration
 }
 
 func (search *Search) StringMatchSearch(text *Text) {
@@ -19,6 +21,27 @@ func (search *Search) StringMatchSearch(text *Text) {
 			search.TotalRelevancy++
 		}
 	}
+}
+
+func (search *Search) StringMatchSearchHandler(w http.ResponseWriter, r *http.Request) {
+	start := time.Now()
+	results := make(map[string]int)
+	for _, text := range search.Texts {
+		splitStrings := strings.Fields(text.content)
+		results[text.Name] = 0
+		for _, word := range splitStrings {
+			if checkToken(word, r.URL.Query().Get("term")) {
+				results[text.Name]++
+				search.TotalRelevancy++
+			}
+		}
+	}
+
+	json.NewEncoder(w).Encode(stringMatchResults{
+		Results:        results,
+		TotalRelevancy: search.TotalRelevancy,
+		ExecutionTime:  time.Since(start),
+	})
 }
 
 func checkToken(token string, searchTerm string) bool {
