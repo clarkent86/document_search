@@ -5,9 +5,9 @@ import (
 	"unicode"
 )
 
-type index map[string][]int
+type Index map[string][]int
 
-func (index index) add(text *Text) map[string]int {
+func (index Index) Add(text *Text) map[string]int {
 	var countIndex = make(map[string]int)
 	for _, word := range analyze(text.content) {
 		_, ok := countIndex[word]
