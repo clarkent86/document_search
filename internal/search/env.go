@@ -10,6 +10,9 @@ import (
 	"github.com/spf13/viper"
 )
 
+// init env is used by th environment version of the document search app
+// to read in environment variables provided in the root of the application
+// in the `.env` file
 func (search *Search) InitEnv() error {
 	viper.SetConfigFile(".env")
 	err := viper.ReadInConfig()
@@ -61,6 +64,7 @@ func (search *Search) InitEnv() error {
 	return nil
 }
 
+// readInFile is a helper function to read in a text file
 func readInFile(path string) (string, error) {
 	content, err := ioutil.ReadFile(path)
 	if err != nil {

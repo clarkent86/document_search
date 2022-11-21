@@ -19,12 +19,49 @@ Provide some thoughts on what you would do on the software or hardware side to m
 Requirements:
 - go version go1.19.3
 
+## User Input Version:
+
+Running this version of the app will prompt via the command line the term and
+method in which to use.
+
 Usage:
 ```bash
-go run .
+go run cmd/user/user.go
+```
+
+## Environmental Version:
+
+Running this version of the app read in environment variables via the `.env`
+file in the root of the repository. A sample environment file has been provided
+as well: `.env.sample`.
+
+Usage:
+```bash
+go run cmd/env/env.go
+```
+
+## Gorilla/Mux API Version:
+
+Running the app via a hosted Restful API is also available. The app will start
+by reading in all the texts. Currently only the string search endpoint is
+implemented, but if I have more time I will implement the others as well.
+
+It would be nice to have this app running to quickly returned indexed searches
+with the texts already analyzed. Similarly, that analysis can be saved and used
+by the standalone versions of the app as well. I'd like to implement a "PUT"
+method to submit new texts to be analyzed as well.
+
+Usage:
+```bash
+go run cmd/app/app.go
 ```
 
 # Performance testing
+
+*NOTE:* This branch was ran on a stale version of the app from a couple of
+years ago from my initial work on this prompt. Given more time I'd like
+to run this against the Gorilla/Mux with asynchronous Golang functions
+with the app potentially running on my NAS or some other hosted service.
 
 I've taken results from [my performanceTesting branch](https://github.com/clarkent86/document_search/tree/performanceTesting) where I've alrtered the output of the program to execute 20M random searches on a chosen method. The key differences in real searches being that the randomly generated "words" are not english, but expected performance with real data would yield similar results.
 
@@ -66,3 +103,21 @@ This doesn't necessarily counteract the massive amount of tokens in this backend
 
 ## Scaling for massive amounts of requests
 If I'm implemented the other improvements scaling for more requests is now probably bottlenecked on the query processing micro-service. Using a load balancer infront of the query microservice I would be able to scale that service up to handle as many queries as the backend can take. If I then notice the bottleneck being the backend, we could mirror the backend and but a load balancer between the query and backend as well.
+
+
+# Future work
+As mentioned above I still need to implement some things. Here's a list of
+potential future enhancements:
+- regex search API endpoint
+- index search API endpoint
+- swagger documentation
+- build a docker image
+- asynchronous calls to the string and regex search endpoints (not necessary
+for the index search since it's just a quick map lookup)
+- load-balanced asyncronous calls through a proxy to multiple deployed API
+versions of the app
+- add a PUT endpoint to submit new texts to the running API
+- backup the processed texts for use by the standalone apps for index search
+- could always use more unit testing!
+- more configurability of the app for rules on punctuation and other characters
+with terms via a loaded environment

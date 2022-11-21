@@ -1,7 +1,6 @@
 package search
 
 import (
-	"fmt"
 	"regexp"
 	"testing"
 
@@ -151,7 +150,6 @@ func TestExecuteSearch(t *testing.T) {
 			index := make(Index)
 			// test.search.Texts[0].Id = 0
 			countIndex := index.Add(&test.search.Texts[0])
-			fmt.Println(countIndex[test.search.Term])
 			assert.Equal(t, test.expectedResult, countIndex[test.search.Term])
 		})
 	}

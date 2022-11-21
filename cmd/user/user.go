@@ -24,8 +24,6 @@ func main() {
 	fmt.Println("\nEnter 1-3 for the following search methods:\n1. String Matching\n2. Regex Search\n3. Indexed Search")
 	fmt.Scanln(&search.Method)
 
-	fmt.Println(search.Method)
-
 	if search.Method < 1 || search.Method > 3 {
 		sugar.Fatal("invalid search method")
 	}
